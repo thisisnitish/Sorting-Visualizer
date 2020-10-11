@@ -29,7 +29,7 @@ export default class SortingVisualizer extends React.Component{
             stats: {
                 name: '',
                 complexity: '',
-                swaps: ''
+                swaps: 0,
             },
 
             quickSort: false,
@@ -66,8 +66,9 @@ export default class SortingVisualizer extends React.Component{
         const array = [];
         //to stop all timeout on the page
         var highestTimeoutId = setTimeout(';');
-        for(var i=0; i<highestTimeoutId; i++)
+        for(var i=0; i<highestTimeoutId; i++){
             clearTimeout(i);
+        }
 
         const arrayBars = document.getElementsByClassName('array-bar');
         for(let i=0; i<this.state.size; i++){
@@ -148,37 +149,56 @@ export default class SortingVisualizer extends React.Component{
     // bubbleSort() {}
 
     render(){
-        const {array} = this.state;
 
+        //Todo: Later on add bootstrap dependency after finishing use only cdn as of now
+        const {array} = this.state;
+        const {complexity, name, swaps} = this.state.stats;
 
         return (
           <>
-            {array.map((value, index) => (
-              <div
-                className="array-bar"
-                key={index}
-                style={{ height: `${value}px` }}
-              ></div>
-            ))}
-            <button onClick={() => this.resetArray()}>
-              Generate New Array
-            </button>
-            <button onClick={() => this.mergeSort()}>Merge Sort</button>
-            {/* Todo: 
-            <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
-            <button onClick={() => this.insertionSort()}>Insertion Sort</button>
-            <button onClick={() => this.selectionSort()}>Selection Sort</button> 
-            <button onClick={() => this.quickSort()}>Quick Sort</button> 
-            <button onClick={() => this.heapSort()}>Heap Sort Sort</button> 
-            */}
-            <button onClick={() => this.testSortingAlgorithms()}>Test Sorting Algorithms</button>
+            {this.state.isFinished && (
+                <div className="card-top-right">
+                    <h5 className="card-header">{{ name }} {{ complexity }}</h5>
+                    <div className="card-body">
+                        <div className="card-text">
+                            <ul className="list-unstyled">
+                                <li>Array size: {array.length}</li>
+                                <li>Swaps: {swaps}</li>
+                            </ul>
+                        </div>
+                        <button 
+                        className="bnt btn-outline-info"
+                        onClick={() => this.resetArray()}
+                        >Generate New Array</button>
+                    </div>
+                </div>
+            )}
+
+            <div className="container-fluid">
+                <div
+                className="row no-gutters border pt-4 mt-2 w-100 d-flex align-items-end"
+                style={{minHeight: '90vh'}}>
+                    <div className="col-12 pb-2">
+                        {array.map((value, idx) => (
+                            <div className="array-bar" key={idx} 
+                            style={{
+                                backgroundColor: PRIMARY_COLOR,
+                                height: `${value}px`,
+                                marginBottom: 0,
+                                paddingBottom: 0,
+                                width: `${95 / this.state.size}%`
+                            }}></div>
+                        ))}
+                    </div>
+                </div>
+            </div>
           </>
         );
     };
 }
 
 
-function randomIntFromInterval(min, max){
+const randomIntFromInterval = (min, max) => {
     //min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
