@@ -1,6 +1,5 @@
 import React from 'react';
 import './SortingVisualizer.css';
-//import * as SortingAlgorithms from  './sortingAlgorithms/sortingAlgorithms';
 import {getMergeSortAnimations} from './sortingAlgorithms/Mergesort';
 
 // Change this value for the speed of the animations.
@@ -10,10 +9,13 @@ const ANIMATION_SPEED_MS = 1;
 const NUMBER_OF_ARRAY_BARS = 310;
 
 // This is the main color of the array bars.
-const PRIMARY_COLOR = 'blue';
+const PRIMARY_COLOR = 'turquoise';
 
 // This is the color of array bars that are being compared throughout the animations.
 const SECONDARY_COLOR = 'red';
+
+//after all the bars in the sorted orders
+const SUCCESS_COLOR = 'blue';
 
 export default class SortingVisualizer extends React.Component{
 
@@ -22,6 +24,20 @@ export default class SortingVisualizer extends React.Component{
 
         this.state = {
             array: [],
+            isFinished: false,
+
+            stats: {
+                name: '',
+                complexity: '',
+                swaps: ''
+            },
+
+            quickSort: false,
+            mergeSort: false,
+            heapSort: false,
+            bubbleSort: false,
+            insertionSort: false,
+            size: 500,
         };
     }
 
@@ -29,19 +45,57 @@ export default class SortingVisualizer extends React.Component{
         this.resetArray();
     }
 
+    componentDidUpdate(prevprops, prevState){
+        if(prevState.quickSort !== this.state.quickSort && this.state.quickSort === true)
+            this.quickSort();
+        if(prevState.bubbleSort !== this.state.bubbleSort && this.state.bubbleSort === true)
+            this.bubbleSort();
+        if(prevState.mergeSort !== this.state.mergeSort && this.state.mergeSort === true)
+            this.mergeSort();
+        if(prevState.insertionSort !== this.state.insertionSort && this.state.insertionSort === true)
+            this.insertionSort();
+        if(prevState.heapSort !== this.state.heapSort && this.state.heapSort === true)
+            this.heapSort();
+       
+        //to render the real time size
+        if(prevState.size !== this.state.size)
+            this.resetArray();
+    }
+
     resetArray(){
         const array = [];
-        for(let i=0; i<NUMBER_OF_ARRAY_BARS; i++){
-            array.push(randomIntFromInterval(5, 730));
+        //to stop all timeout on the page
+        var highestTimeoutId = setTimeout(';');
+        for(var i=0; i<highestTimeoutId; i++)
+            clearTimeout(i);
+
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for(let i=0; i<this.state.size; i++){
+            array.push(randomIntFromInterval(5, 700));
         }
-        this.setState({array});
+
+        for(let j=0; j<arrayBars.length; j++){
+            //reset the color to original color i.e 
+            const barOneStyle = arrayBars[j].style;
+            barOneStyle.backgroundColor = PRIMARY_COLOR;
+        }
+
+        this.setState({
+            array,
+            isFinished: false,
+            quickSort: false,
+            mergeSort: false,
+            heapSort: false,
+            bubbleSort: false,
+            insertionSort: false,
+        });
     }
 
     mergeSort() {
         const animations = getMergeSortAnimations(this.state.array);
+        const arrayBars = document.getElementsByClassName('array-bar');
         
         for(let i=0; i<animations.length; i++){
-            const arrayBars = document.getElementsByClassName('array-bar');
             const isColorChange = i % 3 !== 2;
             if(isColorChange){
                 const[barOneIdx, barTwoIdx] = animations[i];
@@ -61,6 +115,29 @@ export default class SortingVisualizer extends React.Component{
                 }, i * ANIMATION_SPEED_MS);
             }
         }
+        //giving the animation after all the array bars will be in the sorted order
+        //giving success color to the array bar
+        setTimeout(() => {
+            for(let j=0; j<arrayBars.length; j++){
+                const barOneStyle = arrayBars[j].style;
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = SUCCESS_COLOR;
+                }, j);
+            }
+        }, animations.length * ANIMATION_SPEED_MS + 400);
+        
+        //managing the state and filling the stats in state regarding merge sort
+        setTimeout(() => {
+            this.setState({
+                isFinished: !this.state.isFinished,
+                stats: {
+                    name: 'Merge Sort',
+                    complexity: 'O(nLogn)',
+                    swaps: Math.floor(animations.length/2),
+                },
+                mergeSort: false,
+            });
+        }, animations.length * ANIMATION_SPEED_MS + 500);
     }
 
     //Todo: Implement these also
@@ -70,27 +147,12 @@ export default class SortingVisualizer extends React.Component{
 
     // bubbleSort() {}
 
-    //function to test sorting algorithms
-    testSortingAlgorithms(){
-        for(let i=0; i<100; i++){
-            const array = [];
-            const length = randomIntFromInterval(1, 1000);
-            
-            for(let i=0; i<length; i++){
-                array.push(randomIntFromInterval(-1000, 1000));
-            }
-            const javaScriptSortedArray = array.slice().sort((a, b) => a - b);
-            
-            const mergeSortedArray = getMergeSortAnimations(array.slice());
-            console.log(arrayAreEqual(javaScriptSortedArray, mergeSortedArray));
-        }
-    }
-
     render(){
         const {array} = this.state;
 
+
         return (
-          <div className="array-container">
+          <>
             {array.map((value, index) => (
               <div
                 className="array-bar"
@@ -110,7 +172,7 @@ export default class SortingVisualizer extends React.Component{
             <button onClick={() => this.heapSort()}>Heap Sort Sort</button> 
             */}
             <button onClick={() => this.testSortingAlgorithms()}>Test Sorting Algorithms</button>
-          </div>
+          </>
         );
     };
 }
@@ -121,12 +183,28 @@ function randomIntFromInterval(min, max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function arrayAreEqual(arrayOne, arrayTwo){
-    if(arrayOne.length !== arrayTwo.length) return false;
-    for(let i=0; i<arrayOne.length; i++){
-        if(arrayOne[i] !== arrayTwo[i]) return false;
-    }
-    return true;
-}
+// function arrayAreEqual(arrayOne, arrayTwo){
+//     if(arrayOne.length !== arrayTwo.length) return false;
+//     for(let i=0; i<arrayOne.length; i++){
+//         if(arrayOne[i] !== arrayTwo[i]) return false;
+//     }
+//     return true;
+// }
 
 // export default SortingVisualizer;
+
+// //function to test sorting algorithms
+//     testSortingAlgorithms(){
+//         for(let i=0; i<100; i++){
+//             const array = [];
+//             const length = randomIntFromInterval(1, 1000);
+            
+//             for(let i=0; i<length; i++){
+//                 array.push(randomIntFromInterval(-1000, 1000));
+//             }
+//             const javaScriptSortedArray = array.slice().sort((a, b) => a - b);
+            
+//             const mergeSortedArray = getMergeSortAnimations(array.slice());
+//             console.log(arrayAreEqual(javaScriptSortedArray, mergeSortedArray));
+//         }
+//     }
