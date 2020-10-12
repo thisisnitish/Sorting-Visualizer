@@ -6,7 +6,7 @@ import {getMergeSortAnimations} from './sortingAlgorithms/Mergesort';
 const ANIMATION_SPEED_MS = 1;
 
 // Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 310;
+//const NUMBER_OF_ARRAY_BARS = 310;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = 'turquoise';
@@ -15,7 +15,7 @@ const PRIMARY_COLOR = 'turquoise';
 const SECONDARY_COLOR = 'red';
 
 //after all the bars in the sorted orders
-const SUCCESS_COLOR = 'blue';
+const SUCCESS_COLOR = '#03bafc';
 
 export default class SortingVisualizer extends React.Component{
 
@@ -29,7 +29,6 @@ export default class SortingVisualizer extends React.Component{
             stats: {
                 name: '',
                 complexity: '',
-                swaps: 0,
             },
 
             quickSort: false,
@@ -134,7 +133,6 @@ export default class SortingVisualizer extends React.Component{
                 stats: {
                     name: 'Merge Sort',
                     complexity: 'O(nLogn)',
-                    swaps: Math.floor(animations.length/2),
                 },
                 mergeSort: false,
             });
@@ -148,22 +146,30 @@ export default class SortingVisualizer extends React.Component{
 
     // bubbleSort() {}
 
+    handleChange = event => {
+    //to allow only numbers
+    const arraySize = event.target.value.replace(/\D/, '');
+    this.setState({
+      size: arraySize <= 2000 ? arraySize : 2000, //to limit the size at 2000
+    });
+    };
+
     render(){
 
-        //Todo: Later on add bootstrap dependency after finishing use only cdn as of now
+        //Todo: Later on add bootstrap dependency after finishing, use only cdn as of now
         const {array} = this.state;
-        const {complexity, name, swaps} = this.state.stats;
+        const {complexity, name} = this.state.stats;
 
         return (
           <>
             {this.state.isFinished && (
-                <div className="card-top-right">
-                    <h5 className="card-header">{{ name }} {{ complexity }}</h5>
+                <div className="card top-right">
+                    <h5 className="card-header">{name}</h5>
                     <div className="card-body">
                         <div className="card-text">
                             <ul className="list-unstyled">
                                 <li>Array size: {array.length}</li>
-                                <li>Swaps: {swaps}</li>
+                                <li>Time Complexity: {complexity}</li>
                             </ul>
                         </div>
                         <button 
@@ -186,12 +192,15 @@ export default class SortingVisualizer extends React.Component{
                                 height: `${value}px`,
                                 marginBottom: 0,
                                 paddingBottom: 0,
-                                width: `${95 / this.state.size}%`
+                                width: `${ 95/ this.state.size}%`
                             }}></div>
                         ))}
                     </div>
                 </div>
             </div>
+            {/* <div>
+                yet to Implement
+            </div> */}
           </>
         );
     };
