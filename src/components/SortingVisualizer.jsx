@@ -1,9 +1,11 @@
 import React from 'react';
 import './SortingVisualizer.css';
 import {getMergeSortAnimations} from './sortingAlgorithms/Mergesort';
+import {getBubbleSortAnimations} from './sortingAlgorithms/BubbleSort';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 1;
+const ANIMATION_SPEED_MS = 1;    // merge sort
+const ANIMATION_SPEED_BS = 1;   // bubble sort
 
 // Change this value for the number of bars (value) in the array.
 //const NUMBER_OF_ARRAY_BARS = 310;
@@ -40,9 +42,11 @@ export default class SortingVisualizer extends React.Component{
         };
     }
 
+    
     componentDidMount(){
         this.resetArray();
     }
+
 
     componentDidUpdate(prevprops, prevState){
         if(prevState.quickSort !== this.state.quickSort && this.state.quickSort === true)
@@ -60,6 +64,7 @@ export default class SortingVisualizer extends React.Component{
         if(prevState.size !== this.state.size)
             this.resetArray();
     }
+
 
     resetArray(){
         const array = [];
@@ -90,6 +95,7 @@ export default class SortingVisualizer extends React.Component{
             insertionSort: false,
         });
     }
+
 
     mergeSort() {
         const animations = getMergeSortAnimations(this.state.array);
@@ -138,13 +144,66 @@ export default class SortingVisualizer extends React.Component{
             });
         }, animations.length * ANIMATION_SPEED_MS + 500);
     }
-
+     
     //Todo: Implement these also
     // quickSort() {}
 
+
     // heapSort() {}
 
-    // bubbleSort() {}
+
+    //insertionSort() {}
+
+
+    bubbleSort() {
+        const animations = getBubbleSortAnimations(this.state.array);
+        const arrayBars = document.getElementsByClassName('array-bar');
+
+        for(let i=0; i<animations.length; i++){
+            const [barOneIdx, barTwoIdx] = animations[i];
+            const barOneStyle = arrayBars[barOneIdx].style;
+            const barTwoStyle = arrayBars[barTwoIdx].style;
+            
+            if(i%2 === 0){
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = SECONDARY_COLOR;
+                    barTwoStyle.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_BS)
+            }
+            else{
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = PRIMARY_COLOR;
+                    barTwoStyle.backgroundColor = PRIMARY_COLOR;
+                    //Todo: Doubt
+                    barOneStyle.height = `${animations[i][3]}px`;
+                    barTwoStyle.height = `${animations[i][2]}px`;
+                }, i * ANIMATION_SPEED_BS)
+            }
+        }
+
+        //Now the array is sorted and now giving the animations
+        setTimeout(() => {
+            for(let j=0; j<arrayBars.length; j++){
+                const barOneStyle = arrayBars[j].style;
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = SUCCESS_COLOR;
+                }, j)
+            }
+        }, animations.length + ANIMATION_SPEED_BS + 400);
+
+        //managing the state and filling the stats regarding the bubble sort
+        setTimeout(() => {
+            this.setState({
+                isFinished: !this.state.isFinished,
+                stats: {
+                    name: 'Bubble Sort',
+                    complexity: 'O(N^2)',
+                },
+                bubbleSort: false,
+            });
+        }, animations.length * ANIMATION_SPEED_BS + 500);
+    }
+
 
     handleChange = event => {
     //to allow only numbers
@@ -156,7 +215,6 @@ export default class SortingVisualizer extends React.Component{
 
     render(){
 
-        //Todo: Later on add bootstrap dependency after finishing, use only cdn as of now
         const {array} = this.state;
         const {complexity, name} = this.state.stats;
 
