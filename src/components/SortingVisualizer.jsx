@@ -254,6 +254,8 @@ export default class SortingVisualizer extends React.Component{
     }
 
 
+    //function for form to give the size, if the user will try to give the array size more than 2000 then not increase more than 
+    //2000
     handleChange = event => {
     //to allow only numbers
     const arraySize = event.target.value.replace(/\D/, '');
@@ -305,9 +307,35 @@ export default class SortingVisualizer extends React.Component{
                     </div>
                 </div>
             </div>
-            {/* <div>
-                yet to Implement
-            </div> */}
+            <div className="container-fluid border">
+                <div className="row no-gutters">
+                    <div className="col-md-3 d-flex">
+                        <label htmlFor="arraySize" style={{fontSize: '15px'}}>
+                            <strong>Array Size</strong>
+                        </label>
+                        <input
+                            id="array size"
+                            name="size"
+                            value={this.state.size}
+                            onChange={this.handleChange}
+                            type="text"
+                            className="form-control align-self-center"
+                            aria-describedby="array size"
+                            placeholder="1000"
+                            disabled={
+                                this.state.mergeSort ||
+                                this.state.bubbleSort ||
+                                this.state.insertionSort
+                                // this.state.quickSort ||
+                                // this.state.heapSort
+                            }
+                        />
+                        <small id="passwordHelpBlock" className="form-text text-muted pt-2">
+                            Max Size 2000
+                        </small>
+                    </div>
+                </div>
+            </div>
           </>
         );
     };
