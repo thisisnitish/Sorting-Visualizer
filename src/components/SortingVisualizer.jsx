@@ -4,6 +4,9 @@ import {getMergeSortAnimations} from './sortingAlgorithms/Mergesort';
 import {getBubbleSortAnimations} from './sortingAlgorithms/BubbleSort';
 import {getInsertionSortAnimations} from './sortingAlgorithms/InsertionSort';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import { FaPause } from "react-icons/fa";
+
 // Change this value for the speed of the animations.
 const ANIMATION_SPEED_MS = 1;    // merge sort
 const ANIMATION_SPEED_BS = 1;   // bubble sort
@@ -13,13 +16,13 @@ const ANIMATION_SPEED_IS = 1;   // insertion sort
 //const NUMBER_OF_ARRAY_BARS = 310;
 
 // This is the main color of the array bars.
-const PRIMARY_COLOR = 'turquoise';
+const PRIMARY_COLOR = '#8e54d6';
 
 // This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = 'red';
+const SECONDARY_COLOR = '#eb6913';
 
 //after all the bars in the sorted orders
-const SUCCESS_COLOR = '#03bafc';
+const SUCCESS_COLOR = '#2cc91a';
 
 export default class SortingVisualizer extends React.Component{
 
@@ -291,7 +294,7 @@ export default class SortingVisualizer extends React.Component{
 
             <div className="container-fluid">
                 <div
-                className="row no-gutters border pt-4 mt-2 w-100 d-flex align-items-end"
+                className="row no-gutters pt-4 mt-2 w-100 d-flex align-items-end"
                 style={{minHeight: '90vh'}}>
                     <div className="col-12 pb-2">
                         {array.map((value, idx) => (
@@ -307,10 +310,11 @@ export default class SortingVisualizer extends React.Component{
                     </div>
                 </div>
             </div>
-            <div className="container-fluid border">
+            <div className="container-fluid">
                 <div className="row no-gutters">
-                    <div className="col-md-3 d-flex">
-                        <label htmlFor="arraySize" style={{fontSize: '15px'}}>
+                    {/* Input form to give the array size */}
+                    <div className="col-md-4 d-flex align-items-center">
+                        <label className="col-md-3 font-weight-bold " htmlFor="arraySize" style={{fontSize: '16px'}}>
                             <strong>Array Size</strong>
                         </label>
                         <input
@@ -330,10 +334,38 @@ export default class SortingVisualizer extends React.Component{
                                 // this.state.heapSort
                             }
                         />
-                        <small id="passwordHelpBlock" className="form-text text-muted pt-2">
+                        <small id="passwordHelpBlock" className="form-text text-muted ml-1 pt-1">
                             Max Size 2000
                         </small>
                     </div>
+                    {/*-------------------------- Merge Sort ------------------*/}
+                    {!this.state.mergeSort && (
+                        <button
+                            style={{cursor: 'pointer'}}
+                            className="btn btn btn-outline-info font-weight-bold ml-3 mt-1 mb-1"
+                            onClick={() => {this.setState({ mergeSort: true })}}
+                            disabled={
+                                this.state.bubbleSort ||
+                                this.state.insertionSort
+                                // this.state.quickSort ||
+                                // this.state.heapSort
+                            }
+                        >
+                            Merge Sort
+                        </button>
+                    )}{' '}
+                    {this.state.mergeSort && (
+                        <button
+                            className="btn btn btn-outline-secondary font-weight-bold ml-3 mt-1 mb-1"
+                            // style={{cursor: 'pointer'}}
+                            // onClick={() => {this.resetArray()}}
+                            disabled={
+                                this.state.mergeSort
+                            }
+                        >
+                          Merge Sort
+                        </button>
+                    )}
                 </div>
             </div>
           </>
