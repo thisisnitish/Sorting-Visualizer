@@ -292,7 +292,7 @@ export default class SortingVisualizer extends React.Component {
                 </ul>
               </div>
               <button
-                className="bnt btn-outline-info"
+                className="btn btn-outline-info font-weight-bold"
                 onClick={() => this.resetArray()}
               >
                 Generate New Array
@@ -369,7 +369,7 @@ export default class SortingVisualizer extends React.Component {
               {!this.state.mergeSort && (
                 <button
                   //   style={{ cursor: "pointer" }}
-                  className="btn btn btn-outline-info font-weight-bold ml-3"
+                  className="btn btn-outline-info font-weight-bold ml-3"
                   onClick={() => {
                     this.setState({ mergeSort: true });
                   }}
@@ -384,7 +384,7 @@ export default class SortingVisualizer extends React.Component {
               )}{" "}
               {this.state.mergeSort && (
                 <button
-                  className="btn btn btn-outline-secondary font-weight-bold ml-3"
+                  className="btn btn-outline-secondary font-weight-bold ml-3"
                   // style={{cursor: 'pointer'}}
                   // onClick={() => {this.resetArray()}}
                   disabled={this.state.mergeSort}
@@ -395,7 +395,7 @@ export default class SortingVisualizer extends React.Component {
               {/* ---------------------------------------Bubble Sort------------------------------------ */}
               {!this.state.bubbleSort && (
                 <button
-                  className="btn btn btn-outline-info font-weight-bold ml-3"
+                  className="btn btn-outline-info font-weight-bold ml-3"
                   onClick={() => {
                     this.setState({ bubbleSort: true });
                   }}
@@ -410,7 +410,7 @@ export default class SortingVisualizer extends React.Component {
               )}{" "}
               {this.state.bubbleSort && (
                 <button
-                  className="btn btn btn-outline-secondary font-weight-bold ml-3"
+                  className="btn btn-outline-secondary font-weight-bold ml-3"
                   // style={{cursor: 'pointer'}}
                   // onClick={() => {this.resetArray()}}
                   disabled={this.state.bubbleSort}
@@ -421,7 +421,7 @@ export default class SortingVisualizer extends React.Component {
               {/* ---------------------------------------Insertion Sort------------------------------------ */}
               {!this.state.insertionSort && (
                 <button
-                  className="btn btn btn-outline-info font-weight-bold ml-3"
+                  className="btn btn-outline-info font-weight-bold ml-3"
                   onClick={() => {
                     this.setState({ insertionSort: true });
                   }}
@@ -436,7 +436,7 @@ export default class SortingVisualizer extends React.Component {
               )}{" "}
               {this.state.insertionSort && (
                 <button
-                  className="btn btn btn-outline-secondary font-weight-bold ml-3"
+                  className="btn btn-outline-secondary font-weight-bold ml-3"
                   // style={{cursor: 'pointer'}}
                   // onClick={() => {this.resetArray()}}
                   disabled={this.state.insertionSort}
