@@ -3,22 +3,24 @@ export function getQuickSortAnimations(array, left, right){
     const animations = [];
     var index;      //partitioning index
 
-    if(left < right){
+    if(array.length > 1){
         index = partition(array, left, right, animations);
 
-        //separately sort elements before and after partitions
-        getQuickSortAnimations(array, left, index-1);
-        getQuickSortAnimations(array, index+1, right);
+        if(left < index - 1)
+            getQuickSortAnimations(array, left, index - 1);
+
+        if(index < right)
+            getQuickSortAnimations(array, index, right);
     }
     return animations;
 }
 
 function partition(array, left, right, animations){
-    var pivot = array[Math.floor((right + left)/2)];    //pivot element
+    var pivot = array[Math.floor((right + left)/2)];    //Taking middle element as pivot element anyone can be taken your wish
 
     //basically using two pointer method
-    i = left;   //left pointer
-    j = right;  //right pointer
+    var i = left;   //left pointer
+    var j = right;  //right pointer
 
     while(i <= j){
         //increasing the right pointer
@@ -28,11 +30,12 @@ function partition(array, left, right, animations){
         //decreasing the left pointer
         while(array[j] > pivot)
             j--;
-    }
-    if(i <= j){
-        swap(array, i, j, animations);     //swap both the elements
-        i++;
-        j--;
+            
+        if(i <= j){
+            swap(array, i, j, animations);     //swap both the elements
+            i++;
+            j--;
+        }
     }
     return i;
 }

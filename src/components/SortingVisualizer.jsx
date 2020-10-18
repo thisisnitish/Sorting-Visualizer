@@ -3,6 +3,7 @@ import "./SortingVisualizer.css";
 import { getMergeSortAnimations } from "./sortingAlgorithms/Mergesort";
 import { getBubbleSortAnimations } from "./sortingAlgorithms/BubbleSort";
 import { getInsertionSortAnimations } from "./sortingAlgorithms/InsertionSort";
+import { getQuickSortAnimations } from "./sortingAlgorithms/QuickSort";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -10,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.css";
 const ANIMATION_SPEED_MS = 1; // merge sort
 const ANIMATION_SPEED_BS = 1; // bubble sort
 const ANIMATION_SPEED_IS = 1; // insertion sort
+const ANIMATION_SPEED_QS = 1; // quick sort
 
 // Change this value for the number of bars (value) in the array.
 //const NUMBER_OF_ARRAY_BARS = 310;
@@ -164,8 +166,54 @@ export default class SortingVisualizer extends React.Component {
     }, animations.length * ANIMATION_SPEED_MS + 500);
   }
 
-  //Todo: Implement these also
-  // quickSort() {}
+  //Todo: Yet to debug this feature
+  quickSort() {
+    const animations = getQuickSortAnimations(this.state.array, 0, this.state.array.length-1);
+    const arrayBars = document.getElementsByClassName("array-bar");
+
+    for (let i = 0; i < animations.length; i++) {
+      const [barOneIdx, barTwoIdx] = animations[i];
+      const barOneStyle = arrayBars[barOneIdx].style;
+      const barTwoStyle = arrayBars[barTwoIdx].style;
+
+      if (i % 2 === 0) {
+        setTimeout(() => {
+          barOneStyle.backgroundColor = SECONDARY_COLOR;
+          barTwoStyle.backgroundColor = SECONDARY_COLOR;
+        }, i * ANIMATION_SPEED_QS);
+      } else {
+        setTimeout(() => {
+          barOneStyle.backgroundColor = PRIMARY_COLOR; // PRIMARY_COLOR
+          barTwoStyle.backgroundColor = PRIMARY_COLOR; // PRIMARY_COLOR
+          //Todo: Doubt
+          barOneStyle.height = `${animations[i][3]}px`;
+          barTwoStyle.height = `${animations[i][2]}px`;
+        }, i * ANIMATION_SPEED_QS);
+      }
+    }
+
+    //Now the array is sorted and now giving the animations of success color
+    setTimeout(() => {
+      for (let j = 0; j < arrayBars.length; j++) {
+        const barOneStyle = arrayBars[j].style;
+        setTimeout(() => {
+          barOneStyle.backgroundColor = SUCCESS_COLOR;
+        }, j);
+      }
+    }, animations.length + ANIMATION_SPEED_QS + 400);
+
+    //managing the state and filling the stats regarding the bubble sort
+    setTimeout(() => {
+      this.setState({
+        isFinished: !this.state.isFinished,
+        stats: {
+          name: "Quick Sort",
+          complexity: "O(nLogn)",
+        },
+        quickSort: false,
+      });
+    }, animations.length * ANIMATION_SPEED_QS + 500);
+  }
 
   // heapSort() {}
 
@@ -374,7 +422,9 @@ export default class SortingVisualizer extends React.Component {
                     this.setState({ mergeSort: true });
                   }}
                   disabled={
-                    this.state.bubbleSort || this.state.insertionSort
+                    this.state.bubbleSort ||
+                    this.state.insertionSort ||
+                    this.state.quickSort
                     // this.state.quickSort ||
                     // this.state.heapSort
                   }
@@ -400,7 +450,9 @@ export default class SortingVisualizer extends React.Component {
                     this.setState({ bubbleSort: true });
                   }}
                   disabled={
-                    this.state.mergeSort || this.state.insertionSort
+                    this.state.mergeSort ||
+                    this.state.insertionSort ||
+                    this.state.quickSort
                     // this.state.quickSort ||
                     // this.state.heapSort
                   }
@@ -426,7 +478,9 @@ export default class SortingVisualizer extends React.Component {
                     this.setState({ insertionSort: true });
                   }}
                   disabled={
-                    this.state.mergeSort || this.state.bubbleSort
+                    this.state.mergeSort ||
+                    this.state.bubbleSort ||
+                    this.state.quickSort
                     // this.state.quickSort ||
                     // this.state.heapSort
                   }
@@ -442,6 +496,33 @@ export default class SortingVisualizer extends React.Component {
                   disabled={this.state.insertionSort}
                 >
                   Insertion Sort
+                </button>
+              )}
+              {/* ---------------------------------------Quick Sort------------------------------------ */}
+              {!this.state.quickSort && (
+                <button
+                  className="btn btn-outline-info font-weight-bold ml-3"
+                  onClick={() => {
+                    this.setState({ quickSort: true });
+                  }}
+                  disabled={
+                    this.state.mergeSort ||
+                    this.state.bubbleSort ||
+                    this.state.insertionSort
+                    // this.state.heapSort
+                  }
+                >
+                  Quick Sort
+                </button>
+              )}{" "}
+              {this.state.quickSort && (
+                <button
+                  className="btn btn-outline-secondary font-weight-bold ml-3"
+                  // style={{cursor: 'pointer'}}
+                  // onClick={() => {this.resetArray()}}
+                  disabled={this.state.quickSort}
+                >
+                  Quick Sort
                 </button>
               )}
             </div>
