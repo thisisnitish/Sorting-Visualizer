@@ -1,18 +1,23 @@
 
 export function getQuickSortAnimations(array, left, right){
     const animations = [];
-    var index;      //partitioning index
-
-    if(array.length > 1){
-        index = partition(array, left, right, animations);
-
-        if(left < index - 1)
-            getQuickSortAnimations(array, left, index - 1);
-
-        if(index < right)
-            getQuickSortAnimations(array, index, right);
-    }
+    
+    quickSorthelper(array, left, right, animations);
+    
     return animations;
+}
+
+function quickSorthelper(array, left, right, animations) {
+
+  var index; //partitioning index
+
+  if (array.length > 1) {
+    index = partition(array, left, right, animations);
+
+    if (left < index - 1) quickSorthelper(array, left, index - 1, animations);
+
+    if (index < right) quickSorthelper(array, index, right, animations);
+  }
 }
 
 function partition(array, left, right, animations){

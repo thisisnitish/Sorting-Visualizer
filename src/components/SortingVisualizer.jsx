@@ -18,19 +18,19 @@ const ANIMATION_SPEED_QS = 1; // quick sort
 
 //Todo: Check all the colors for the bars to make user understandable, Problem in insertion sort animation or i think its fine let it be that only.
 // This is the main color of the array bars.
-const PRIMARY_COLOR = "#8e54d6";
+const PRIMARY_COLOR = "#7a76e8";
 
 // This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = "#eb6913";
+const SECONDARY_COLOR = "#ff0000";
 
 //after all the bars in the sorted orders
-const SUCCESS_COLOR = "#2cc91a";
+const SUCCESS_COLOR = "#046327";
 
 //Todo: color for the sorted bars
 const SORTED_BAR_COLOR = "#756454";
 
 //Todo: color for the single bars for comparison with the other bar of different color
-const SINGLE_BAR_COLOR = "#ebc013";
+const SINGLE_BAR_COLOR = "#a7fa00";
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class SortingVisualizer extends React.Component {
       heapSort: false,
       bubbleSort: false,
       insertionSort: false,
-      size: 500,
+      size: 200,
     };
   }
 
@@ -129,7 +129,7 @@ export default class SortingVisualizer extends React.Component {
         const [barOneIdx, barTwoIdx] = animations[i];
         const barOneStyle = arrayBars[barOneIdx].style;
         const barTwoStyle = arrayBars[barTwoIdx].style;
-        const color = i % 3 === 0 ? SECONDARY_COLOR : SORTED_BAR_COLOR; // PRIMARY_COLOR
+        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
         setTimeout(() => {
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
@@ -178,13 +178,13 @@ export default class SortingVisualizer extends React.Component {
 
       if (i % 2 === 0) {
         setTimeout(() => {
-          barOneStyle.backgroundColor = SECONDARY_COLOR;
+          barOneStyle.backgroundColor = SINGLE_BAR_COLOR;
           barTwoStyle.backgroundColor = SECONDARY_COLOR;
         }, i * ANIMATION_SPEED_QS);
       } else {
         setTimeout(() => {
-          barOneStyle.backgroundColor = PRIMARY_COLOR; // PRIMARY_COLOR
-          barTwoStyle.backgroundColor = PRIMARY_COLOR; // PRIMARY_COLOR
+          barOneStyle.backgroundColor = SORTED_BAR_COLOR; // PRIMARY_COLOR
+          barTwoStyle.backgroundColor = SORTED_BAR_COLOR; // PRIMARY_COLOR
           //Todo: Doubt
           barOneStyle.height = `${animations[i][3]}px`;
           barTwoStyle.height = `${animations[i][2]}px`;
@@ -282,8 +282,7 @@ export default class SortingVisualizer extends React.Component {
       } else {
         setTimeout(() => {
           barOneStyle.backgroundColor = PRIMARY_COLOR; // PRIMARY_COLOR
-          barTwoStyle.backgroundColor = SORTED_BAR_COLOR; // PRIMARY_COLOR
-          //Todo: Doubt
+          barTwoStyle.backgroundColor = PRIMARY_COLOR; // PRIMARY_COLOR
           barOneStyle.height = `${animations[i][3]}px`;
           barTwoStyle.height = `${animations[i][2]}px`;
         }, i * ANIMATION_SPEED_BS);
@@ -319,7 +318,7 @@ export default class SortingVisualizer extends React.Component {
     //to allow only numbers
     const arraySize = event.target.value.replace(/\D/, "");
     this.setState({
-      size: arraySize <= 2000 ? arraySize : 2000, //to limit the size at 2000
+      size: arraySize <= 500 ? arraySize : 500, //to limit the size at 2000
     });
   };
 
@@ -364,7 +363,7 @@ export default class SortingVisualizer extends React.Component {
                     height: `${value}px`,
                     marginBottom: 0,
                     paddingBottom: 0,
-                    width: `${95 / this.state.size}%`,
+                    width: `${29 / this.state.size}%`,
                   }}
                 ></div>
               ))}
@@ -390,7 +389,7 @@ export default class SortingVisualizer extends React.Component {
                 type="text"
                 className="form-control align-self-center"
                 aria-describedby="array size"
-                placeholder="1000"
+                placeholder="300"
                 disabled={
                   this.state.mergeSort ||
                   this.state.bubbleSort ||
@@ -403,7 +402,7 @@ export default class SortingVisualizer extends React.Component {
                 id="passwordHelpBlock"
                 className="form-text text-muted ml-1 pt-1"
               >
-                Max Size 2000
+                Maximum 500
               </small>
             </div>
             <div className="col-md-8 align-items-center">
