@@ -4,6 +4,7 @@ import { getMergeSortAnimations } from "./sortingAlgorithms/Mergesort";
 import { getBubbleSortAnimations } from "./sortingAlgorithms/BubbleSort";
 import { getInsertionSortAnimations } from "./sortingAlgorithms/InsertionSort";
 import { getQuickSortAnimations } from "./sortingAlgorithms/QuickSort";
+import { getSelectionSortAnimations } from "./sortingAlgorithms/SelectionSort";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -12,6 +13,7 @@ const ANIMATION_SPEED_MS = 1; // merge sort
 const ANIMATION_SPEED_BS = 1; // bubble sort
 const ANIMATION_SPEED_IS = 1; // insertion sort
 const ANIMATION_SPEED_QS = 1; // quick sort
+const ANIMATION_SPEED_SS = 1; // selection sort
 
 // Change this value for the number of bars (value) in the array.
 //const NUMBER_OF_ARRAY_BARS = 310;
@@ -50,6 +52,7 @@ export default class SortingVisualizer extends React.Component {
       heapSort: false,
       bubbleSort: false,
       insertionSort: false,
+      selectionSort: false,
       size: 200,
     };
   }
@@ -79,6 +82,11 @@ export default class SortingVisualizer extends React.Component {
       this.state.insertionSort === true
     )
       this.insertionSort();
+    if (
+      prevState.selectionSort !== this.state.selectionSort &&
+      this.state.selectionSort === true
+    )
+      this.selectionSort();
     if (
       prevState.heapSort !== this.state.heapSort &&
       this.state.heapSort === true
@@ -116,6 +124,7 @@ export default class SortingVisualizer extends React.Component {
       heapSort: false,
       bubbleSort: false,
       insertionSort: false,
+      selectionSort: false
     });
   }
 
@@ -166,7 +175,7 @@ export default class SortingVisualizer extends React.Component {
     }, animations.length * ANIMATION_SPEED_MS + 500);
   }
 
-  //Todo: Yet to debug this feature
+
   quickSort() {
     const animations = getQuickSortAnimations(this.state.array, 0, this.state.array.length-1);
     const arrayBars = document.getElementsByClassName("array-bar");
@@ -216,6 +225,57 @@ export default class SortingVisualizer extends React.Component {
   }
 
   // heapSort() {}
+
+  //Todo: Fix the bug in disabling the button
+  //Todo: Remove the Stats Card
+  selectionSort() {
+    const animations = getSelectionSortAnimations(this.state.array);
+    console.log(animations);
+    const arrayBars = document.getElementsByClassName("array-bar");
+
+    for (let i = 0; i < animations.length; i++) {
+      const [barOneIdx, barTwoIdx] = animations[i];
+      const barOneStyle = arrayBars[barOneIdx].style;
+      const barTwoStyle = arrayBars[barTwoIdx].style;
+
+      if (i % 2 === 0) {
+        setTimeout(() => {
+          barOneStyle.backgroundColor = SECONDARY_COLOR;
+          barTwoStyle.backgroundColor = SECONDARY_COLOR;
+        }, i * ANIMATION_SPEED_SS);
+      } else {
+        setTimeout(() => {
+          barOneStyle.backgroundColor = PRIMARY_COLOR; // PRIMARY_COLOR
+          barTwoStyle.backgroundColor = SORTED_BAR_COLOR; // PRIMARY_COLOR
+          barOneStyle.height = `${animations[i][3]}px`;
+          barTwoStyle.height = `${animations[i][2]}px`;
+        }, i * ANIMATION_SPEED_SS);
+      }
+    }
+
+    //Now the array is sorted and now giving the animations of success color
+    setTimeout(() => {
+      for (let j = 0; j < arrayBars.length; j++) {
+        const barOneStyle = arrayBars[j].style;
+        setTimeout(() => {
+          barOneStyle.backgroundColor = SUCCESS_COLOR;
+        }, j);
+      }
+    }, animations.length + ANIMATION_SPEED_SS + 400);
+
+    //managing the state and filling the stats regarding the bubble sort
+    setTimeout(() => {
+      this.setState({
+        isFinished: !this.state.isFinished,
+        stats: {
+          name: "Selection Sort",
+          complexity: "O(N^2)",
+        },
+        selectionSort: false,
+      });
+    }, animations.length * ANIMATION_SPEED_SS + 500);
+
+  }
 
   insertionSort() {
     const animations = getInsertionSortAnimations(this.state.array);
@@ -423,8 +483,8 @@ export default class SortingVisualizer extends React.Component {
                   disabled={
                     this.state.bubbleSort ||
                     this.state.insertionSort ||
-                    this.state.quickSort
-                    // this.state.quickSort ||
+                    this.state.quickSort ||
+                    this.state.selectionSort
                     // this.state.heapSort
                   }
                 >
@@ -507,7 +567,8 @@ export default class SortingVisualizer extends React.Component {
                   disabled={
                     this.state.mergeSort ||
                     this.state.bubbleSort ||
-                    this.state.insertionSort
+                    this.state.insertionSort ||
+                    this.state.selectionSort
                     // this.state.heapSort
                   }
                 >
@@ -522,6 +583,34 @@ export default class SortingVisualizer extends React.Component {
                   disabled={this.state.quickSort}
                 >
                   Quick Sort
+                </button>
+              )}
+              {/* ---------------------------------------Selection Sort------------------------------------ */}
+              {!this.state.selectionSort && (
+                <button
+                  className="btn btn-outline-info font-weight-bold ml-3"
+                  onClick={() => {
+                    this.setState({ selectionSort: true });
+                  }}
+                  disabled={
+                    this.state.mergeSort ||
+                    this.state.bubbleSort ||
+                    this.state.insertionSort ||
+                    this.state.quickSort
+                    // this.state.heapSort
+                  }
+                >
+                  Selection Sort
+                </button>
+              )}{" "}
+              {this.state.selectionSort && (
+                <button
+                  className="btn btn-outline-secondary font-weight-bold ml-3"
+                  // style={{cursor: 'pointer'}}
+                  // onClick={() => {this.resetArray()}}
+                  disabled={this.state.selectionSort}
+                >
+                  Selection Sort
                 </button>
               )}
             </div>
