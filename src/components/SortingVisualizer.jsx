@@ -9,19 +9,15 @@ import { getHeapSortAnimations } from "./sortingAlgorithms/HeapSort";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-//Todo: Change the animation speed later
 // Change this value for the speed of the animations.
 const ANIMATION_SPEED_MS = 1; // merge sort
 const ANIMATION_SPEED_BS = 1; // bubble sort
 const ANIMATION_SPEED_IS = 1; // insertion sort
 const ANIMATION_SPEED_QS = 1; // quick sort
-const ANIMATION_SPEED_SS = 1; // selection sort
+const ANIMATION_SPEED_SS = 2; // selection sort
 const ANIMATION_SPEED_HS = 1; // heap sort
 
-// Change this value for the number of bars (value) in the array.
-//const NUMBER_OF_ARRAY_BARS = 310;
-
-//Todo: Check all the colors for the bars to make user understandable, Problem in insertion sort animation or i think its fine let it be that only.
+//Todo: Check all the colors for the bars to make user understandable.
 // This is the main color of the array bars.
 const PRIMARY_COLOR = "#7a76e8";
 
@@ -44,12 +40,6 @@ export default class SortingVisualizer extends React.Component {
     this.state = {
       array: [],
       isFinished: false,
-
-      stats: {
-        name: "",
-        complexity: "",
-      },
-
       quickSort: false,
       mergeSort: false,
       heapSort: false,
@@ -100,6 +90,7 @@ export default class SortingVisualizer extends React.Component {
     if (prevState.size !== this.state.size) this.resetArray();
   }
 
+
   resetArray() {
     const array = [];
     //to stop all timeout on the page
@@ -130,6 +121,7 @@ export default class SortingVisualizer extends React.Component {
       selectionSort: false
     });
   }
+
 
   mergeSort() {
     const animations = getMergeSortAnimations(this.state.array);
@@ -169,10 +161,6 @@ export default class SortingVisualizer extends React.Component {
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
-        stats: {
-          name: "Merge Sort",
-          complexity: "O(nLogn)",
-        },
         mergeSort: false,
       });
     }, animations.length * ANIMATION_SPEED_MS + 500);
@@ -218,14 +206,11 @@ export default class SortingVisualizer extends React.Component {
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
-        stats: {
-          name: "Quick Sort",
-          complexity: "O(nLogn)",
-        },
         quickSort: false,
       });
     }, animations.length * ANIMATION_SPEED_QS + 500);
   }
+
 
   heapSort() {
     const animations = getHeapSortAnimations(this.state.array);
@@ -265,17 +250,12 @@ export default class SortingVisualizer extends React.Component {
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
-        stats: {
-          name: "Heap Sort",
-          complexity: "O(nLogn)",
-        },
         heapSort: false,
       });
     }, animations.length * ANIMATION_SPEED_MS + 500);
   }
 
-  //Todo: Fix the bug in disabling the button
-  //Todo: Remove the Stats Card
+
   selectionSort() {
     const animations = getSelectionSortAnimations(this.state.array);
     const arrayBars = document.getElementsByClassName("array-bar");
@@ -314,15 +294,12 @@ export default class SortingVisualizer extends React.Component {
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
-        stats: {
-          name: "Selection Sort",
-          complexity: "O(N^2)",
-        },
         selectionSort: false,
       });
     }, animations.length * ANIMATION_SPEED_SS + 500);
 
   }
+
 
   insertionSort() {
     const animations = getInsertionSortAnimations(this.state.array);
@@ -363,14 +340,11 @@ export default class SortingVisualizer extends React.Component {
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
-        stats: {
-          name: "Insertion Sort",
-          complexity: "O(N^2)",
-        },
         insertionSort: false,
       });
     }, animations.length * ANIMATION_SPEED_IS + 500);
   }
+
 
   bubbleSort() {
     const animations = getBubbleSortAnimations(this.state.array);
@@ -410,17 +384,13 @@ export default class SortingVisualizer extends React.Component {
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
-        stats: {
-          name: "Bubble Sort",
-          complexity: "O(N^2)",
-        },
         bubbleSort: false,
       });
     }, animations.length * ANIMATION_SPEED_BS + 500);
   }
 
-  //function for form to give the size, if the user will try to give the array size more than 2000 then not increase more than
-  //2000
+  //function for form to give the size, if the user will try to give the array size more than 500 then not increase more than
+  //500
   handleChange = (event) => {
     //to allow only numbers
     const arraySize = event.target.value.replace(/\D/, "");
@@ -431,30 +401,10 @@ export default class SortingVisualizer extends React.Component {
 
   render() {
     const { array } = this.state;
-    const { complexity, name } = this.state.stats;
 
     return (
       <>
-        {/* {this.state.isFinished && (
-          <div className="card top-right">
-            <h5 className="card-header">{name}</h5>
-            <div className="card-body">
-              <div className="card-text">
-                <ul className="list-unstyled">
-                  <li>Array size: {array.length}</li>
-                  <li>Time Complexity: {complexity}</li>
-                </ul>
-              </div>
-              <button
-                className="btn btn-outline-info font-weight-bold"
-                onClick={() => this.resetArray()}
-              >
-                Generate New Array
-              </button>
-            </div>
-          </div>
-        )} */}
-
+      {/* ------------------------------------------------BARS----------------------------------------------------- */}
         <div className="container-fluid">
           <div
             className="row no-gutters pt-4 mt-2 w-100 d-flex align-items-end"
@@ -477,17 +427,11 @@ export default class SortingVisualizer extends React.Component {
             </div>
           </div>
         </div>
+
         <div className="container-fluid">
           <div className="row no-gutters">
             {/* Input form to give the array size */}
             <div className="col-md-3 d-flex align-items-center">
-              {/* <label
-                className="col-md-3 font-weight-bold "
-                htmlFor="arraySize"
-                style={{ fontSize: "16px" }}
-              >
-                <strong>Array Size</strong>
-              </label> */}
               <input
                 id="array size"
                 name="size"
@@ -513,6 +457,7 @@ export default class SortingVisualizer extends React.Component {
                 Maximum 500
               </small>
             </div>
+
             <div className="col-md-8 align-items-center">
               <button
                 className="btn btn-outline-info font-weight-bold"
@@ -523,7 +468,6 @@ export default class SortingVisualizer extends React.Component {
               {/*--------------------------------------- Merge Sort -----------------------------------*/}
               {!this.state.mergeSort && (
                 <button
-                  //   style={{ cursor: "pointer" }}
                   className="btn btn-outline-info font-weight-bold ml-1"
                   onClick={() => {
                     this.setState({ mergeSort: true });
@@ -542,8 +486,6 @@ export default class SortingVisualizer extends React.Component {
               {this.state.mergeSort && (
                 <button
                   className="btn btn-outline-secondary font-weight-bold ml-1"
-                  // style={{cursor: 'pointer'}}
-                  // onClick={() => {this.resetArray()}}
                   disabled={this.state.mergeSort}
                 >
                   Merge Sort
@@ -570,8 +512,6 @@ export default class SortingVisualizer extends React.Component {
               {this.state.bubbleSort && (
                 <button
                   className="btn btn-outline-secondary font-weight-bold ml-1"
-                  // style={{cursor: 'pointer'}}
-                  // onClick={() => {this.resetArray()}}
                   disabled={this.state.bubbleSort}
                 >
                   Bubble Sort
@@ -598,8 +538,6 @@ export default class SortingVisualizer extends React.Component {
               {this.state.insertionSort && (
                 <button
                   className="btn btn-outline-secondary font-weight-bold ml-1"
-                  // style={{cursor: 'pointer'}}
-                  // onClick={() => {this.resetArray()}}
                   disabled={this.state.insertionSort}
                 >
                   Insertion Sort
@@ -626,8 +564,6 @@ export default class SortingVisualizer extends React.Component {
               {this.state.quickSort && (
                 <button
                   className="btn btn-outline-secondary font-weight-bold ml-1"
-                  // style={{cursor: 'pointer'}}
-                  // onClick={() => {this.resetArray()}}
                   disabled={this.state.quickSort}
                 >
                   Quick Sort
