@@ -2,7 +2,7 @@
 ## Sorting Visualizer
 
 # Under-Development
-This is a Web App built using ReactJS. It is used to visualize the sorting algorithms such as Mere Sort, Bubble Sort etc.
+A Web App built using ReactJS. It is used to visualize the sorting algorithms such as Merge Sort, Bubble Sort etc.
 
 ## Installation
 
@@ -13,3 +13,5 @@ cd Sorting-Visualizer
 npm install
 ```
 And, you are Good to Go!!!
+
+This Project was inspired by <a href="https://github.com/clementmihailescu/">Clément Mihailescu's</a> Sorting Visualizer Tutorial Video that i watched on his YouTube Channel.
