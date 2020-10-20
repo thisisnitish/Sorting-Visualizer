@@ -14,4 +14,4 @@ npm install
 ```
 And, you are Good to Go!!!
 
-This Project was inspired by <a href="https://github.com/clementmihailescu/">Clément Mihailescu's</a> Sorting Visualizer Tutorial Video that i watched on his YouTube Channel.
+This Project was inspired by <a href="https://github.com/clementmihailescu/">Clément Mihailescu's</a> Sorting Visualizer Tutorial Video that I watched on his YouTube Channel.
