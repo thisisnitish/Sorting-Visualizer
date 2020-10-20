@@ -157,7 +157,7 @@ export default class SortingVisualizer extends React.Component {
       }
     }, animations.length * ANIMATION_SPEED_MS + 400);
 
-    //managing the state and filling the stats in state regarding merge sort
+    //managing the state
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
@@ -202,7 +202,7 @@ export default class SortingVisualizer extends React.Component {
       }
     }, animations.length + ANIMATION_SPEED_QS + 400);
 
-    //managing the state and filling the stats regarding the bubble sort
+    //managing the state
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
@@ -246,7 +246,7 @@ export default class SortingVisualizer extends React.Component {
       }
     }, animations.length * ANIMATION_SPEED_HS + 400);
 
-    //managing the state and filling the stats regarding the bubble sort
+    //managing the state
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
@@ -290,7 +290,7 @@ export default class SortingVisualizer extends React.Component {
       }
     }, animations.length + ANIMATION_SPEED_SS + 400);
 
-    //managing the state and filling the stats regarding the bubble sort
+    //managing the state
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
@@ -336,7 +336,7 @@ export default class SortingVisualizer extends React.Component {
       }
     }, animations.length + ANIMATION_SPEED_IS + 400);
 
-    //managing the state and filling the stats regarding the bubble sort
+    //managing the state
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
@@ -380,7 +380,7 @@ export default class SortingVisualizer extends React.Component {
       }
     }, animations.length + ANIMATION_SPEED_BS + 400);
 
-    //managing the state and filling the stats regarding the bubble sort
+    //managing the state
     setTimeout(() => {
       this.setState({
         isFinished: !this.state.isFinished,
