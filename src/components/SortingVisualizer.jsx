@@ -17,7 +17,6 @@ const ANIMATION_SPEED_QS = 1; // quick sort
 const ANIMATION_SPEED_SS = 2; // selection sort
 const ANIMATION_SPEED_HS = 1; // heap sort
 
-//Todo: Check all the colors for the bars to make user understandable.
 // This is the main color of the array bars.
 const PRIMARY_COLOR = "#7a76e8";
 
@@ -185,7 +184,6 @@ export default class SortingVisualizer extends React.Component {
         setTimeout(() => {
           barOneStyle.backgroundColor = SORTED_BAR_COLOR; // PRIMARY_COLOR
           barTwoStyle.backgroundColor = SORTED_BAR_COLOR; // PRIMARY_COLOR
-          //Todo: Doubt
           barOneStyle.height = `${animations[i][3]}px`;
           barTwoStyle.height = `${animations[i][2]}px`;
         }, i * ANIMATION_SPEED_QS);
@@ -319,7 +317,6 @@ export default class SortingVisualizer extends React.Component {
         setTimeout(() => {
           barOneStyle.backgroundColor = SINGLE_BAR_COLOR; // PRIMARY_COLOR
           barTwoStyle.backgroundColor = SORTED_BAR_COLOR; // PRIMARY_COLOR
-          //Todo: Doubt
           barOneStyle.height = `${animations[i][3]}px`;
           barTwoStyle.height = `${animations[i][2]}px`;
         }, i * ANIMATION_SPEED_IS);
