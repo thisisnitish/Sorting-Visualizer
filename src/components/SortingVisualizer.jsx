@@ -26,10 +26,10 @@ const SECONDARY_COLOR = "#ff0000";
 //after all the bars in the sorted orders
 const SUCCESS_COLOR = "#046327";
 
-//Todo: color for the sorted bars
+//color for the sorted bars
 const SORTED_BAR_COLOR = "#756454";
 
-//Todo: color for the single bars for comparison with the other bar of different color
+//color for the single bars for comparison with the other bar of different color
 const SINGLE_BAR_COLOR = "#a7fa00";
 
 export default class SortingVisualizer extends React.Component {
