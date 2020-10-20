@@ -9,7 +9,7 @@ export function getHeapSortAnimations(array){
   }
 
   // One by one extract an element from heap
-  for(var i = array.length - 1; i > 0; i--){
+  for(i = array.length - 1; i > 0; i--){
       swap(array, 0, i, animations);
       length--;
       heapify(array, 0, length, animations);
