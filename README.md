@@ -11,6 +11,5 @@ If you want to run this locally, Fork this repository, Clone it and install the 
 git clone https://github.com/<your username>/Sorting-Visualizer.git
 cd Sorting-Visualizer
 npm install
-
 ```
 And, you are Good to Go!!!
