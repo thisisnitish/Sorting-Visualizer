@@ -54,4 +54,5 @@ npm start
 
 And, you are Good to Go!!!
 
-This Project was inspired by <a href="https://github.com/clementmihailescu/">Clément Mihailescu's</a> Sorting Visualizer Tutorial Video that I watched on his YouTube Channel.
+This Project was inspired by <a href="https://github.com/clementmihailescu/">Clément Mihailescu's</a> Sorting Visualizer Tutorial 
+<a href="https://www.youtube.com/watch?v=pFXYym4Wbkc">Video</a> that I watched on his YouTube Channel.
