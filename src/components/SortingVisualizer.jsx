@@ -14,7 +14,7 @@ const ANIMATION_SPEED_MS = 1; // merge sort
 const ANIMATION_SPEED_BS = 1; // bubble sort
 const ANIMATION_SPEED_IS = 1; // insertion sort
 const ANIMATION_SPEED_QS = 1; // quick sort
-const ANIMATION_SPEED_SS = 2; // selection sort
+const ANIMATION_SPEED_SS = 1.5; // selection sort
 const ANIMATION_SPEED_HS = 1; // heap sort
 
 // This is the main color of the array bars.
