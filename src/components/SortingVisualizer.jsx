@@ -392,7 +392,7 @@ export default class SortingVisualizer extends React.Component {
     //to allow only numbers
     const arraySize = event.target.value.replace(/\D/, "");
     this.setState({
-      size: arraySize <= 500 ? arraySize : 500, //to limit the size at 2000
+      size: arraySize <= 350 ? arraySize : 350, //to limit the size
     });
   };
 
@@ -401,7 +401,7 @@ export default class SortingVisualizer extends React.Component {
 
     return (
       <>
-      {/* ------------------------------------------------BARS----------------------------------------------------- */}
+        {/* ------------------------------------------------BARS----------------------------------------------------- */}
         <div className="container-fluid">
           <div
             className="row no-gutters pt-4 mt-2 w-100 d-flex align-items-end"
@@ -435,7 +435,7 @@ export default class SortingVisualizer extends React.Component {
                 value={this.state.size}
                 onChange={this.handleChange}
                 type="text"
-                className="form-control align-self-center"
+                className="form-control"
                 aria-describedby="array size"
                 placeholder="Array Size"
                 disabled={
@@ -451,13 +451,13 @@ export default class SortingVisualizer extends React.Component {
                 id="passwordHelpBlock"
                 className="form-text text-muted ml-1 pt-1"
               >
-                Maximum 500
+                Maximum 350
               </small>
             </div>
 
-            <div className="col-md-8 align-items-center">
+            <div className="d-flex flex-row justify-content-evenly">
               <button
-                className="btn btn-outline-info font-weight-bold"
+                className="btn btn-outline-info font-weight-bold ml-4"
                 onClick={() => this.resetArray()}
               >
                 Generate New Array
@@ -499,7 +499,7 @@ export default class SortingVisualizer extends React.Component {
                     this.state.mergeSort ||
                     this.state.insertionSort ||
                     this.state.quickSort ||
-                    this.state.quickSort ||
+                    this.state.selectionSort ||
                     this.state.heapSort
                   }
                 >

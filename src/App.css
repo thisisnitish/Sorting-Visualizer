@@ -1,4 +1,6 @@
 .App {
   text-align: center;
-  background-color: rgb(230, 230, 230);
+  /* background-color: rgb(230, 230, 230); */
+  background-color: #151517;
+  height: 100vh;
 }
